@@ -101,6 +101,15 @@ test_data <- list(
 
 # Create for loop to test gmean() on the above examples
 
+as.numeric(test_data)
+
+output <- vector("double", length(test_data))
+
+for (i in seq_along(test_data)) {
+  output[[i]] <- gmean(test_data[[i]])
+}
+
+output
 
 ```
 
