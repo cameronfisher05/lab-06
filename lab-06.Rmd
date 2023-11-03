@@ -1,6 +1,6 @@
 ---
 title: "Lab 06 - Functions and iterations"
-author: "INSERT NAME HERE"
+author: "CAMERON FISHER"
 date: "`r Sys.Date()`"
 output: html_document
 ---
