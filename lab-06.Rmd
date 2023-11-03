@@ -11,15 +11,16 @@ output: html_document
 ```{r load-packages, message=FALSE}
 library(tidyverse) 
 library(ggplot2)
+View(diamonds)
 ```
 
 ```{r diamon_rename}
 diamonds <- diamonds %>% rename(
-    depth_pct = depth,
-    length_mm = x,
-    width_mm = y,
-    depth_mm = z,
-    table_pct = table
+    depth_pct = "depth",
+    length_mm = "x",
+    width_mm = "y",
+    depth_mm = "z",
+    table_pct = "table"
   )
 ```
 
@@ -29,8 +30,13 @@ diamonds <- diamonds %>% rename(
 ```{r}
 # Do some preliminary investigations & cleaning
 
+diamonds %>% ggplot(mapping = aes(x = clarity, fill = color)) + geom_bar() + labs(title = "Number of Diamonds per clarity", subtitle = "Filled by colour grade", y = "Frequency", x = "Clarity grade")
 
+diamonds %>% group_by(cut) %>% summarise(mean_price = mean(price)) %>% arrange(mean_price)
 
+diamonds %>% group_by(carat) %>% summarise(mean_table = mean(table_pct)) %>% ggplot(mapping = aes(x = carat, y = mean_table)) + geom_line()
+
+diamonds %>% group_by(carat) %>% summarise(mean_price = mean(price)) %>% ggplot(mapping = aes(x = carat, y = mean_price)) + geom_point() + geom_smooth()
 
 ```
 
@@ -44,7 +50,7 @@ diamonds <- diamonds %>%
 
 # Overall table_mm arithmetic mean?
 
-
+diamonds %>% summarise(mean_table = mean(table_mm))
 
 
 
@@ -52,13 +58,13 @@ diamonds <- diamonds %>%
 # table_mm arithmetic mean within each clarity category
 
 
-
+diamonds %>% group_by(clarity) %>% summarise(mean_table = mean(table_mm)) %>% arrange(mean_table)
 
 
 
 ```
 
-_Add your comment here_
+_On average the table size increases as the clarity of the diamonds increase, so there is a negative relationship between the two variable._
 
 ## Exercise 3
 
@@ -70,6 +76,11 @@ _Do derivation on paper, unless you know how to write LaTeX code_
 ```{r}
 # Write gmean() command
 
+gmean <- function(x) {
+  exp(mean(log(x)))
+}
+
+diamonds %>% summarise(gmean_price = gmean(price)) #test example
 
 
 ```
